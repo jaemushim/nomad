@@ -1,25 +1,23 @@
 "use client"
 
-import React, { useMemo, useRef } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { format } from "date-fns"
 import { Controller, useForm } from "react-hook-form"
 import { z } from "zod"
 
 import "./quill.snow.css"
-import { revalidateTag } from "next/cache"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
 import {
   addDoc,
   collection,
-  doc,
+  documentId,
   getDocs,
   limit,
   orderBy,
   query,
   serverTimestamp,
-  setDoc,
+  where,
 } from "firebase/firestore"
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage"
 
@@ -44,7 +42,7 @@ import {
 import { toast } from "@/components/ui/use-toast"
 import { useAuth } from "@/app/context/AuthContext"
 
-import { auth, db, storage } from "../../firebase"
+import { auth, db, storage } from "../../../firebase"
 
 const ReactQuill = dynamic(
   async () => {
@@ -64,12 +62,12 @@ const formSchema = z.object({
   workType: z.string(),
   title: z.string().min(2, { message: "제목은 최소 2글자를 입력하여주세요." }),
   content: z.string().min(1, { message: "내용을 입력하여 주세요." }),
-  createAt: z.string(),
+  createAt: z.any(),
   hit: z.number(),
   author: z.string(),
 })
 
-const page = () => {
+const page = ({ params }: { params: { id: string } }) => {
   const user = useAuth()
   const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
@@ -105,7 +103,6 @@ const page = () => {
     await getDocs(q)
 
     router.push("/")
-    router.refresh()
   }
 
   const onError = (error: any) => {
@@ -159,6 +156,20 @@ const page = () => {
     []
   )
 
+  const [data, setData] = useState<any>()
+  useEffect(() => {
+    ;(async () => {
+      const q = query(
+        collection(db, "posts"),
+        where(documentId(), "==", params.id)
+      )
+      const querySnapshot = await getDocs(q)
+      const data = querySnapshot.docs[0].data()
+      console.log("data", data)
+      form.reset(data)
+    })()
+  }, [])
+  console.log("form.watch(", form.watch())
   return (
     <div className="container mt-12 mb-28">
       <div className="max-w-screen-lg mx-auto">
@@ -180,6 +191,7 @@ const page = () => {
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
+                      value={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>

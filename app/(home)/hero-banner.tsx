@@ -2,9 +2,7 @@
 
 import { useRef } from "react"
 import Image from "next/image"
-import Link from "next/link"
 import Autoplay from "embla-carousel-autoplay"
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 
 import {
   Carousel,
@@ -19,16 +17,14 @@ const HeroBanner = () => {
 
   return (
     <Carousel
-      plugins={[plugin.current]}
+      // plugins={[plugin.current]}
       className="w-full"
       opts={{
-        loop: true,
+        loop: false,
       }}
-      onMouseEnter={plugin.current.stop}
-      onMouseLeave={plugin.current.reset}
     >
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
+        {Array.from({ length: 1 }).map((_, index, data) => (
           <CarouselItem key={index}>
             <div className="relative h-[280px] w-full rounded-3xl bg-red-200 p-1">
               <Image
@@ -36,10 +32,12 @@ const HeroBanner = () => {
                 fill
                 alt=""
               ></Image>
-              <div className="absolute bottom-5 right-5 flex rounded-full bg-[rgba(255,255,255,0.8)]">
-                <CarouselPrevious />
-                <CarouselNext />
-              </div>
+              {data.length !== 1 && (
+                <div className="absolute bottom-5 right-5 flex rounded-full bg-[rgba(255,255,255,0.8)]">
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </div>
+              )}
             </div>
           </CarouselItem>
         ))}

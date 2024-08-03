@@ -15,7 +15,7 @@ export function MainNav({ items }: MainNavProps) {
   return (
     <div className="flex gap-6 md:gap-10">
       <Link href="/" className="flex items-center space-x-2">
-        <Image alt="" src="/logo.svg" width={140} height={60} />
+        <Image alt="" src="/logo.svg" width={120} height={90} />
       </Link>
     </div>
   )

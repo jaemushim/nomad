@@ -15,6 +15,7 @@ import {
 import { Eye } from "lucide-react"
 import { useBottomScrollListener } from "react-bottom-scroll-listener"
 
+import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 
 import { auth, db } from "../firebase"
@@ -78,7 +79,12 @@ const List = ({ data: initialData }: any) => {
                           </p>
                           <Badge
                             variant="outline"
-                            className="border-green-500 text-green-500 mb-3"
+                            className={cn(
+                              "mb-3",
+                              post.state === "ing"
+                                ? "border-green-500 text-green-500"
+                                : "border-gray-500 text-gray-500"
+                            )}
                           >
                             {post.state === "ing" ? "모집중" : "마감"}
                           </Badge>
@@ -101,13 +107,18 @@ const List = ({ data: initialData }: any) => {
             <Link
               href={`/posts/${post.postId}`}
               key={`zzz${index}`}
-              className="rounded-[20px] h-[194px] shadow-[rgba(149,157,165,0.2)_0px_8px_24px] p-5 bg-slate-50 border"
+              className="rounded-[20px] h-[194px] shadow-[rgba(149,157,165,0.1)_0px_8px_24px] p-5 bg-slate-50 border"
             >
               <div className="flex justify-between">
                 <p className="text-orange-400 font-semibold">{post.category}</p>
                 <Badge
                   variant="outline"
-                  className="border-green-500 text-green-500 mb-3"
+                  className={cn(
+                    "mb-3",
+                    post.state === "ing"
+                      ? "border-green-500 text-green-500"
+                      : "border-gray-500 text-gray-500"
+                  )}
                 >
                   {post.state === "ing" ? "모집중" : "마감"}
                 </Badge>

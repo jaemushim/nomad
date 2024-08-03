@@ -57,7 +57,7 @@ export function SiteHeader() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="">
                   <DropdownMenuItem asChild>
-                    <Link href="/">내 작성글</Link>
+                    <Link href="/posts/my">내 작성글</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleSignOut}>
                     로그아웃

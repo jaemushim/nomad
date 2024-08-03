@@ -31,7 +31,6 @@ const page = ({ params }: { params: { id: string } }) => {
   const { setOpen } = useLoginDialog()
   const { user } = useAuth()
   const [data, setData] = useState<any>()
-  console.log("user", user)
   useEffect(() => {
     ;(async () => {
       const q = query(

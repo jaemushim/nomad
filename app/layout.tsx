@@ -1,4 +1,5 @@
 import "@/styles/globals.css"
+import "@/styles/react-confirm-alert.css"
 import { Metadata } from "next"
 import Script from "next/script"
 import { QueryClient } from "@tanstack/react-query"
