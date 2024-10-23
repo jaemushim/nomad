@@ -26,7 +26,7 @@ const HeroBanner = () => {
       <CarouselContent>
         {Array.from({ length: 1 }).map((_, index, data) => (
           <CarouselItem key={index}>
-            <div className="relative h-[280px] w-full rounded-3xl bg-red-200 p-1">
+            <div className="relative h-[280px] w-full rounded-3xl p-1">
               <Image
                 src="https://hola-post-image.s3.ap-northeast-2.amazonaws.com/ad/hola-event_2024-01-27_02-28-34.png"
                 fill
